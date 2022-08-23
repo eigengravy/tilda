@@ -1,13 +1,13 @@
 # tilda
 
-A fullstack Github Gists clone build as my core review project at DevSoc, BPGC.
+A fullstack Github Gists clone built as my core review project at DevSoc, BPGC.
 
 ## Technologies Used
 
 ### Backend
 
  - Express
- - Mongoose 
+ - MongoDB with Mongoose 
  - JWT based Auth
 
 ### Frontend
