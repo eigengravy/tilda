@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(5000, () => {
+app.listen( process.env.PORT, () => {
   connect();
   console.log("Started");
 });

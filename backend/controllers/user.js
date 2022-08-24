@@ -3,6 +3,7 @@ import User from "../models/User.js";
 export const getUser = async (req, res, next) => {
   try {
     const foundUser = await User.findOne({ name: req.params.name });
+    consolr.log(foundUser)
     if (!foundUser) return next(createError(404, "User not found"));
 
     const token = req.cookies.access_token;
@@ -16,7 +17,7 @@ export const getUser = async (req, res, next) => {
       });
     }
 
-    foundUser.gists.filter((gist) => gist.public);
+    // foundUser.gists.filter((gist) => gist.public);
     res.status(200).json(foundUser);
   } catch (err) {
     next(err);

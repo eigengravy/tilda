@@ -14,8 +14,9 @@ import Gist from "./pages/Gist";
 import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
 import axios from "axios";
+import { NotFound } from "./pages/NotFound";
 
-axios.defaults.baseURL = `http://localhost:5000/api`
+axios.defaults.baseURL = import.meta.env.VITE_SERVER
 
 function App() {
   const preferredColorScheme = useColorScheme();
@@ -43,6 +44,7 @@ function App() {
                 <Route index element={<Profile />}></Route>
                 <Route path=":id" element={<Gist />}></Route>
               </Route>
+              <Route path="notfound" element={<NotFound />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>
