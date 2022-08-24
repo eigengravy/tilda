@@ -16,10 +16,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.2",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.19"
+    "cors": "^2.8.5"
   },
   "devDependencies": {
-    "cors": "^2.8.5",
-    "prettier": "2.7.1"
+    "prettier": "2.7.1",
+    "nodemon": "^2.0.19"
   }
 }
