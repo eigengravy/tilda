@@ -79,53 +79,58 @@ export function TildaHeader() {
             </Button>
           </Group>
         ) : (
-          <Menu
-            width={260}
-            position="bottom-end"
-            transition="pop-top-right"
-            onClose={() => setUserMenuOpened(false)}
-            onOpen={() => setUserMenuOpened(true)}
-          >
-            <Menu.Target>
-              <UnstyledButton
-                className={cx(classes.user, {
-                  [classes.userActive]: userMenuOpened,
-                })}
-              >
-                <Group spacing={7}>
-                  <Avatar
-                    src={currentUser.img!!}
-                    alt={currentUser.name}
-                    radius="xl"
-                    size={20}
-                  />
-                  <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
-                    {currentUser.name}
-                  </Text>
-                  <IconChevronDown size={12} stroke={1.5} />
-                </Group>
-              </UnstyledButton>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item
-                component={Link}
-                to={`/${currentUser.name}`}
-                icon={<IconUser size={14} stroke={1.5} />}
-              >
-                Profile
-              </Menu.Item>
+          <div>
+            <Button component={Link} to={`/${currentUser.name}/create`}>
+              +
+            </Button>
+            <Menu
+              width={260}
+              position="bottom-end"
+              transition="pop-top-right"
+              onClose={() => setUserMenuOpened(false)}
+              onOpen={() => setUserMenuOpened(true)}
+            >
+              <Menu.Target>
+                <UnstyledButton
+                  className={cx(classes.user, {
+                    [classes.userActive]: userMenuOpened,
+                  })}
+                >
+                  <Group spacing={7}>
+                    <Avatar
+                      src={currentUser.img!!}
+                      alt={currentUser.name}
+                      radius="xl"
+                      size={20}
+                    />
+                    <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
+                      {currentUser.name}
+                    </Text>
+                    <IconChevronDown size={12} stroke={1.5} />
+                  </Group>
+                </UnstyledButton>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item
+                  component={Link}
+                  to={`/${currentUser.name}`}
+                  icon={<IconUser size={14} stroke={1.5} />}
+                >
+                  Profile
+                </Menu.Item>
 
-              <Menu.Item
-                onClick={() => {
-                  dispatch(logout());
-                  navigate("/", {replace: true})
-                }}
-                icon={<IconLogout size={14} stroke={1.5} />}
-              >
-                Logout
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+                <Menu.Item
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/", { replace: true });
+                  }}
+                  icon={<IconLogout size={14} stroke={1.5} />}
+                >
+                  Logout
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </div>
         )}
       </div>
     </Header>

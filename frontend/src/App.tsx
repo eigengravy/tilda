@@ -3,20 +3,18 @@ import {
   MantineProvider,
   ColorSchemeProvider,
   ColorScheme,
-  Container,
 } from "@mantine/core";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useColorScheme } from "@mantine/hooks";
-import { TildaFooter } from "./components/TildaFooter";
-import { TildaHeader } from "./components/TildaHeader";
 import Dashboard from "./pages/Dashboard";
-import Gist from "./pages/Gist";
+import ViewOrEditGist from "./pages/ViewOrEditGist";
 import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
 import axios from "axios";
-import { NotFound } from "./pages/NotFound";
+import { NotFound } from "./components/NotFound";
+import CreateGist from "./pages/CreateGist";
 
-axios.defaults.baseURL = import.meta.env.VITE_SERVER
+axios.defaults.baseURL = import.meta.env.VITE_SERVER;
 
 function App() {
   const preferredColorScheme = useColorScheme();
@@ -42,9 +40,11 @@ function App() {
               <Route path="signup" element={<Auth type={"signup"} />}></Route>
               <Route path=":name">
                 <Route index element={<Profile />}></Route>
-                <Route path=":id" element={<Gist />}></Route>
+                <Route path="create" element={<CreateGist />}></Route>
+                <Route path=":id" element={<ViewOrEditGist />}></Route>
               </Route>
               <Route path="notfound" element={<NotFound />}></Route>
+              <Route path="*" element={<NotFound />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

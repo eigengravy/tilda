@@ -24,7 +24,7 @@ const connect = () => {
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors())
+app.use(cors());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen( process.env.PORT, () => {
+app.listen(process.env.PORT, () => {
   connect();
   console.log("Started");
 });

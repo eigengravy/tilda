@@ -6,7 +6,8 @@ import {
   getGist,
   latestGists,
   updateGist,
-} from "../controllers/gist.js";
+  getGistsByUser,
+} from "../controllers/gists.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.put("/:id", verifyToken, updateGist);
 router.delete("/:id", verifyToken, deleteGist);
 router.get("/find/:id", getGist);
 router.get("/latest", latestGists);
+router.get("/user/:name", getGistsByUser);
 
 export default router;

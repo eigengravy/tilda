@@ -107,14 +107,16 @@ const Auth = ({ type }: AuthProps) => {
               dispatch(loginStart());
               signInWithPopup(auth, googleProvider)
                 .then((result) => {
-                  axios.post("/auth/google", {
-                    name: result.user.email,
-                    email:result.user.email,
-                    img:result.user.photoURL
-                  }).then((res) => {
-                    dispatch(loginSuccess(res.data));
-                    navigate("/",{replace: true})
-                  })
+                  axios
+                    .post("/auth/google", {
+                      name: result.user.email,
+                      email: result.user.email,
+                      img: result.user.photoURL,
+                    })
+                    .then((res) => {
+                      dispatch(loginSuccess(res.data));
+                      navigate("/", { replace: true });
+                    });
                 })
                 .catch((err) => dispatch(loginFailure()));
             }}
@@ -145,8 +147,9 @@ const Auth = ({ type }: AuthProps) => {
                   email,
                   password,
                 });
+                console.log(res);
                 dispatch(loginSuccess(res.data));
-                navigate("/",{replace: true})
+                navigate("/", { replace: true });
               } catch (err) {
                 dispatch(loginFailure());
               }
@@ -157,10 +160,8 @@ const Auth = ({ type }: AuthProps) => {
                   name,
                   password,
                 });
-                navigate("/signin",{replace: true})
-              } catch (err) {
-                
-              }
+                navigate("/signin", { replace: true });
+              } catch (err) {}
             }
           })}
         >

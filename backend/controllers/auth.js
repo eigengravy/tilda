@@ -21,11 +21,12 @@ export const signin = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return next(createError(404, "User not found"));
 
-    const isCorrect = await bcrypt.compare(req.body.password, user.password);
+    const isCorrect = bcrypt.compare(req.body.password, user.password);
     if (!isCorrect) return next(createError(400, "Wrong credentials"));
 
     const token = jwt.sign({ id: user._id }, process.env.JWT);
     const { password, ...others } = user._doc;
+    console.log("Loggin in", token, others);
     res
       .cookie("access_token", token, {
         httpOnly: true,
@@ -64,11 +65,8 @@ export const googleAuth = async (req, res, next) => {
         .json(savedUser._doc);
     }
   } catch (err) {
-    next(err)
+    next(err);
   }
+};
 
-}
-
-export const githubAuth = async (req, res, next) => {
-    
-}
+export const githubAuth = async (req, res, next) => {};

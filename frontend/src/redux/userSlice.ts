@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
   currentUser: User | null;
@@ -10,45 +10,46 @@ export interface UserState {
 const initialState: UserState = {
   currentUser: null,
   loading: false,
-  error: false
-}
+  error: false,
+};
 
 export interface User {
-  _id: string
-  name: string
-  email: string
-  gists: string[]
-  createdAt: string
-  updatedAt: string
-  fromGoogle: boolean
-  fromGithub: boolean
-  __v: number
-  img?: string
+  _id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  gists: string[];
+  updatedAt: string;
+  fromGoogle: boolean;
+  fromGithub: boolean;
+  __v: number;
+  img?: string;
 }
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     loginStart: (state) => {
-      state.loading = true
+      state.loading = true;
     },
     loginSuccess: (state, action: PayloadAction<User>) => {
-      state.loading = false
-      state.currentUser = action.payload
+      state.loading = false;
+      state.currentUser = action.payload;
     },
     loginFailure: (state) => {
-      state.loading = false
-      state.error = true
+      state.loading = false;
+      state.error = true;
     },
     logout: (state) => {
-      state.currentUser = null
-      state.loading = false
-      state.error = false
-    }
+      state.currentUser = null;
+      state.loading = false;
+      state.error = false;
+    },
   },
-})
+});
 
-export const { loginStart, loginSuccess, loginFailure, logout } = userSlice.actions
+export const { loginStart, loginSuccess, loginFailure, logout } =
+  userSlice.actions;
 
-export default userSlice.reducer
+export default userSlice.reducer;

@@ -7,8 +7,8 @@ const UserSchema = new mongoose.Schema(
     password: { type: String },
     img: { type: String },
     gists: { type: [String] },
-    fromGoogle: {type: Boolean, default: false},
-    fromGithub: {type: Boolean, default: false}
+    fromGoogle: { type: Boolean, default: false },
+    fromGithub: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

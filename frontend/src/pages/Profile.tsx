@@ -1,76 +1,73 @@
 import { Avatar, Box, Container, Text } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { GistCardProps } from "../components/GistCard";
 
 import GistCardGrid from "../components/GistCardGrid";
 import { TildaFooter } from "../components/TildaFooter";
 import { TildaHeader } from "../components/TildaHeader";
 import { Gist } from "../redux/gistSlice";
-import { RootState } from "../redux/store";
 import { User } from "../redux/userSlice";
+import { NotFound } from "../components/NotFound";
 
 const Profile = () => {
   const params = useParams();
-  const [user, setUser] = useState<User|null>(null);
-  const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
   const [gists, setGists] = useState<Gist[]>([]);
+  const [gistCards, setGistCards] = useState<GistCardProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [found, setFound] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userRes = await axios.get(`/users/find/${params.name}`);
-      if (userRes.status === 200) {
+      try {
+        const userRes = await axios.get(`/users/find/${params.name}`);
         setUser(userRes.data);
+        const gistsRes = await axios.get(`/gists/user/${params.name}`);
+        setGists(gistsRes.data);
+        setFound(true);
+        setLoading(false);
+      } catch (err) {
+        setFound(false);
+        setLoading(false);
       }
     };
     fetchUser();
-  }, []);
+  }, [params]);
 
   useEffect(() => {
-    if (user === null) {
-      navigate("/notfound");
-    }
-  }, [user]);
+    setGistCards(
+      gists.map((gist) => {
+        return {
+          key: gist._id,
+          title: gist.title,
+          author: user?.name!!,
+          gistId: gist._id,
+          createdAt: gist.createdAt,
+          desc: gist.desc,
+          isPublic: gist.public,
+        };
+      })
+    );
+  }, [gists]);
 
-  useEffect(() => {
-    const fetchGists = async () => {
-      if (user !== null) {
-        const userGists = await Promise.all(
-          user?.gists.map(async (gist) => {
-            const res = await axios.get(`/gists/find/${gist}`);
-            return res.data;
-          })
-        );
-        setGists(userGists);
-      }
-    };
-    fetchGists()
-  }, [user])
+  const ProfilePage = () => {
+    return (
+      <Container>
+        <TildaHeader />
+        <Box>
+          <Avatar src={user?.img} />
+          <Text>{user?.name}</Text>
+          <Text>{user?.email}</Text>
+          <GistCardGrid cards={gistCards} />
+        </Box>
+        <TildaFooter />
+      </Container>
+    );
+  };
 
-  const gistCards : GistCardProps[] = gists.map(gist => {
-    return {
-      title: gist.title,
-      author: user?.name!!,
-      gistId: gist._id,
-      createdAt: gist.createdAt,
-      desc: gist.desc,
-      isPublic: gist.public ,
-    }
-   }
-  )
-
-  return (
-    <Container>
-      <TildaHeader />
-      <Avatar src={user?.img} />
-      <Text>{user?.name}</Text>
-      <Text>{user?.email}</Text>
-      <GistCardGrid cards={gistCards} />
-      <TildaFooter />
-    </Container>
-  );
+  return loading ? <Container /> : found ? <ProfilePage /> : <NotFound />;
 };
 
 export default Profile;

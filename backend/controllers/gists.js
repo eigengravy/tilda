@@ -79,8 +79,45 @@ export const getGist = async (req, res, next) => {
 
 export const latestGists = async (req, res, next) => {
   try {
-    const gist = await Gist.find({public: true}).sort({ createdAt: -1 }).limit(10);
+    const gist = await Gist.find({ public: true })
+      .sort({ createdAt: -1 })
+      .limit(10);
     res.status(200).json(gist);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getGistsByUser = async (req, res, next) => {
+  try {
+    const foundUser = await User.findOne({ name: req.params.name });
+    if (!foundUser) return next(createError(404, "User not found"));
+
+    let isOwner = false;
+    const token = req.cookies.access_token;
+    console.log(token);
+    if (token) {
+      jwt.verify(token, process.env.JWT, (err, user) => {
+        if (!err) {
+          if (user.id === foundUser._id) {
+            isOwner = true;
+          }
+        }
+      });
+    }
+
+    const gists = await Promise.all(
+      foundUser.gists.map(async (gist) => {
+        const gistRes = await Gist.findById(gist);
+        return gistRes;
+      })
+    );
+
+    res.status(200).json(
+      gists.filter((gist) => {
+        return isOwner || gist.public;
+      })
+    );
   } catch (err) {
     next(err);
   }
