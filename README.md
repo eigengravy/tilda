@@ -1,6 +1,6 @@
 # tilda
 
-A fullstack Github Gists clone built as my core review project at DevSoc, BPGC.
+Fullstack Github Gists clone built as my core review project at DevSoc, BPGC.
 
 ## Technologies Used
 
@@ -20,3 +20,6 @@ A fullstack Github Gists clone built as my core review project at DevSoc, BPGC.
 ## Features
 
 - Login with email, google, github
+- Browse latest gists and user profiles
+- Create, view, edit markdown gists
+- Public/ Private visibility settings for gists
