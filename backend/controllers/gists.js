@@ -96,7 +96,7 @@ export const getGistsByUser = async (req, res, next) => {
 
     let isOwner = false;
     const token = req.cookies.access_token;
-    console.log(token);
+
     if (token) {
       jwt.verify(token, process.env.JWT, (err, user) => {
         if (!err) {

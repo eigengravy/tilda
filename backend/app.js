@@ -14,9 +14,6 @@ dotenv.config();
 const connect = () => {
   mongoose
     .connect(process.env.MONGO)
-    .then(() => {
-      console.log("Connected to DB");
-    })
     .catch((err) => {
       throw err;
     });
@@ -45,5 +42,4 @@ app.use((err, req, res, next) => {
 
 app.listen(process.env.PORT, () => {
   connect();
-  console.log("Started");
 });

@@ -147,7 +147,7 @@ const Auth = ({ type }: AuthProps) => {
                   email,
                   password,
                 });
-                console.log(res);
+
                 dispatch(loginSuccess(res.data));
                 navigate("/", { replace: true });
               } catch (err) {
