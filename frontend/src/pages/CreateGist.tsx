@@ -4,12 +4,17 @@ import { useState } from "react";
 import { TildaFooter } from "../components/TildaFooter";
 import { TildaHeader } from "../components/TildaHeader";
 import MarkdownEditor from "@uiw/react-markdown-editor";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const CreateGist = () => {
   const [source, setSource] = useState("");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
+  const navigate = useNavigate()
+  const { currentUser } = useSelector((state: RootState) => state.user);
 
   const saveGist = async () => {
     try {
@@ -19,10 +24,8 @@ const CreateGist = () => {
         public: !isPrivate,
         url: source,
       };
-      const res = await axios.post(`/gists`, data, {
-        withCredentials: true,
-      });
-      console.log(res);
+      const res = await axios.post(`/gists`, data);
+      navigate(`/${currentUser?.name}/${res.data._id}`)
     } catch (err) {}
   };
 

@@ -1,6 +1,7 @@
 import Gist from "../models/Gist.js";
 import User from "../models/User.js";
 import { createError } from "../utils/error.js";
+import jwt from "jsonwebtoken";
 
 export const addGist = async (req, res, next) => {
   const gist = new Gist({ userId: req.user.id, ...req.body });
@@ -99,7 +100,7 @@ export const getGistsByUser = async (req, res, next) => {
     if (token) {
       jwt.verify(token, process.env.JWT, (err, user) => {
         if (!err) {
-          if (user.id === foundUser._id) {
+          if (user.id === foundUser._id.toString()) {
             isOwner = true;
           }
         }

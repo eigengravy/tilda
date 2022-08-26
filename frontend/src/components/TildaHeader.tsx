@@ -16,6 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import { logout } from "../redux/userSlice";
+import axios from "axios";
 
 const useStyles = createStyles((theme: MantineTheme) => ({
   header: {
@@ -121,12 +122,16 @@ export function TildaHeader() {
 
                 <Menu.Item
                   onClick={() => {
-                    dispatch(logout());
-                    navigate("/", { replace: true });
+                    axios
+                      .post("/auth/signout")
+                      .then(() => {
+                        dispatch(logout());
+                        navigate("/", { replace: true })
+                      });
                   }}
                   icon={<IconLogout size={14} stroke={1.5} />}
                 >
-                  Logout
+                  Signout
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>

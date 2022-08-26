@@ -1,6 +1,5 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
 import User from "../models/User.js";
 import { createError } from "../utils/error.js";
 
@@ -26,10 +25,12 @@ export const signin = async (req, res, next) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT);
     const { password, ...others } = user._doc;
-    console.log("Loggin in", token, others);
+
     res
       .cookie("access_token", token, {
         httpOnly: true,
+        samesite: "None",
+        secure: true,
       })
       .status(200)
       .json(others);
@@ -64,6 +65,15 @@ export const googleAuth = async (req, res, next) => {
         .status(200)
         .json(savedUser._doc);
     }
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const signout = async (req, res, next) => {
+  try {
+    res.clearCookie("access_token");
+    res.end()
   } catch (err) {
     next(err);
   }

@@ -15,6 +15,7 @@ import { NotFound } from "./components/NotFound";
 import CreateGist from "./pages/CreateGist";
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER;
+axios.defaults.withCredentials = true
 
 function App() {
   const preferredColorScheme = useColorScheme();
