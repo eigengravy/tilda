@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/commands": "^6.1.0",
     "@emotion/react": "^11.10.4",
     "@mantine/core": "^5.3.1",
     "@mantine/form": "^5.3.1",

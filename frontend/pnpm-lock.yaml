@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@codemirror/commands': ^6.1.0
   '@emotion/react': ^11.10.4
   '@mantine/core': ^5.3.1
   '@mantine/form': ^5.3.1
@@ -26,6 +27,7 @@ specifiers:
   vite: ^3.1.1
 
 dependencies:
+  '@codemirror/commands': 6.1.0
   '@emotion/react': 11.10.4_dyfrgrdbkbkiiub2mj647rnune
   '@mantine/core': 5.3.1_x426wtfxzkv7g4kfcqgit377lu
   '@mantine/form': 5.3.1_react@18.2.0
