@@ -1,6 +1,6 @@
 import { Button, Container, Switch, TextInput } from "@mantine/core";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TildaFooter } from "../components/TildaFooter";
 import { TildaHeader } from "../components/TildaHeader";
 import MarkdownEditor from "@uiw/react-markdown-editor";
@@ -13,7 +13,7 @@ const CreateGist = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state: RootState) => state.user);
 
   const saveGist = async () => {
@@ -25,11 +25,19 @@ const CreateGist = () => {
         url: source,
       };
       const res = await axios.post(`/gists`, data);
-      navigate(`/${currentUser?.name}/${res.data._id}`)
+      navigate(`/${currentUser?.name}/${res.data._id}`);
     } catch (err) {}
   };
 
-  return (
+  useEffect(() => {
+    if (currentUser == null) {
+      navigate(`/signin`);
+    }
+  }, []);
+
+  return currentUser === null ? (
+    <Container />
+  ) : (
     <Container>
       <TildaHeader />
       <TextInput

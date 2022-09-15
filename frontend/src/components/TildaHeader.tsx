@@ -11,7 +11,7 @@ import {
   useMantineTheme,
   MantineTheme,
 } from "@mantine/core";
-import { IconLogout, IconChevronDown, IconUser } from "@tabler/icons";
+import { IconLogout, IconChevronDown, IconUser, IconMessage } from "@tabler/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
@@ -118,6 +118,14 @@ export function TildaHeader() {
                   icon={<IconUser size={14} stroke={1.5} />}
                 >
                   Profile
+                </Menu.Item>
+
+                <Menu.Item
+                  component={Link}
+                  to={`/chat`}
+                  icon={<IconMessage size={14} stroke={1.5} />}
+                >
+                  Chat
                 </Menu.Item>
 
                 <Menu.Item

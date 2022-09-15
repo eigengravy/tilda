@@ -2,29 +2,43 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import cors from "cors";
+// import cors from "cors";
+import ws, { WebSocketServer } from "ws";
 
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import gistRoutes from "./routes/gists.js";
 
+const wss = new WebSocketServer({ noServer: true });
+
+wss.on("connection", (socket) => {
+  socket.on("message", (message) => {
+    for (const client of wss.clients) {
+      if (client.readyState === ws.OPEN) {
+        client.send(message.toString());
+      }
+    }
+  });
+});
+
 const app = express();
 dotenv.config();
 
 const connect = () => {
-  mongoose
-    .connect(process.env.MONGO)
-    .catch((err) => {
-      throw err;
-    });
+  mongoose.connect(process.env.MONGO_URL).catch((err) => {
+    throw err;
+  });
 };
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
-}));
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -40,6 +54,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   connect();
+});
+
+server.on("upgrade", (request, socket, head) => {
+  wss.handleUpgrade(request, socket, head, (socket) => {
+    wss.emit("connection", socket, request);
+  });
 });

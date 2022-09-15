@@ -13,9 +13,10 @@ import Auth from "./pages/Auth";
 import axios from "axios";
 import { NotFound } from "./components/NotFound";
 import CreateGist from "./pages/CreateGist";
+import Chat from "./pages/Chat";
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER;
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true;
 
 function App() {
   const preferredColorScheme = useColorScheme();
@@ -39,6 +40,7 @@ function App() {
               <Route index element={<Dashboard />}></Route>
               <Route path="signin" element={<Auth type={"signin"} />}></Route>
               <Route path="signup" element={<Auth type={"signup"} />}></Route>
+              <Route path="chat" element={<Chat />}></Route>
               <Route path=":name">
                 <Route index element={<Profile />}></Route>
                 <Route path="create" element={<CreateGist />}></Route>
